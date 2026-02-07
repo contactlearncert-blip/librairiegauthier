@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Librairie Enchantée{% endblock %}</title>
+    <title>{% block title %}Librairie Gauthier{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,9 +27,9 @@
             <nav class="main-nav" id="main-nav">
                 <ul>
                     <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Accueil</a></li>
-                    <li><a href="{{ url_for('catalogue', categorie='fourniture') }}" class="{% if request.endpoint == 'catalogue' and categorie_active == 'fourniture' %}active{% endif %}">Fournitures</a></li>
-                    <li><a href="{{ url_for('catalogue', categorie='livre') }}" class="{% if request.endpoint == 'catalogue' and categorie_active == 'livre' %}active{% endif %}">Livres</a></li>
-                    <li><a href="{{ url_for('catalogue', categorie='outils_artistique') }}" class="{% if request.endpoint == 'catalogue' and categorie_active == 'outils_artistique' %}active{% endif %}">Outils artistique & décoration</a></li>
+                    <li><a href="{{ url_for('catalogue') }}?categorie=fourniture" class="{% if request.endpoint == 'catalogue' and categorie_active == 'fourniture' %}active{% endif %}">Fournitures</a></li>
+                    <li><a href="{{ url_for('catalogue') }}?categorie=livre" class="{% if request.endpoint == 'catalogue' and categorie_active == 'livre' %}active{% endif %}">Livres</a></li>
+                    <li><a href="{{ url_for('catalogue') }}?categorie=outils_artistique" class="{% if request.endpoint == 'catalogue' and categorie_active == 'outils_artistique' %}active{% endif %}">Outils artistique & décoration</a></li>
                     <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
                 </ul>
             </nav>
@@ -53,18 +53,18 @@
                     <h3>Navigation</h3>
                     <ul>
                         <li><a href="{{ url_for('index') }}">Accueil</a></li>
-                        <li><a href="{{ url_for('catalogue', categorie='fourniture') }}">Fournitures</a></li>
-                        <li><a href="{{ url_for('catalogue', categorie='livre') }}">Livres</a></li>
-                        <li><a href="{{ url_for('catalogue', categorie='outils_artistique') }}">Outils artistique & décoration</a></li>
+                        <li><a href="{{ url_for('catalogue') }}?categorie=fourniture">Fournitures</a></li>
+                        <li><a href="{{ url_for('catalogue') }}?categorie=livre">Livres</a></li>
+                        <li><a href="{{ url_for('catalogue') }}?categorie=outils_artistique">Outils artistique & décoration</a></li>
                         <li><a href="{{ url_for('contact') }}">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h3>Catégories</h3>
                     <ul>
-                        <li><a href="{{ url_for('catalogue', categorie='livre') }}">Livres</a></li>
-                        <li><a href="{{ url_for('catalogue', categorie='fourniture') }}">Fournitures</a></li>
-                        <li><a href="{{ url_for('catalogue', categorie='outils_artistique') }}">Outils artistique & décoration</a></li>
+                        <li><a href="{{ url_for('catalogue') }}?categorie=livre">Livres</a></li>
+                        <li><a href="{{ url_for('catalogue') }}?categorie=fourniture">Fournitures</a></li>
+                        <li><a href="{{ url_for('catalogue') }}?categorie=outils_artistique">Outils artistique & décoration</a></li>
                     </ul>
                 </div>
             </div>
