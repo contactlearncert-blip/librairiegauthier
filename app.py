@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # Données produits - information uniquement pour la librairie physique
 PRODUITS = [
-    # Livres
+    # Livres (IDs 1-5)
     {
         "id": 1,
         "nom": "Le Petit Prince",
@@ -51,7 +51,7 @@ PRODUITS = [
         "auteur": "Jane Austen"
     },
     
-    # Fournitures
+    # Fournitures (IDs 6-18)
     {
         "id": 6,
         "nom": "Cahier Moleskine",
@@ -92,7 +92,7 @@ PRODUITS = [
         "image": "regle.jpg",
         "disponible": True
     },
-        {
+    {
         "id": 11,
         "nom": "Crayon à papier",
         "categorie": "fourniture",
@@ -157,9 +157,9 @@ PRODUITS = [
         "disponible": True
     },
     
-    # Outils artistiques
+    # Outils artistiques (IDs 19-23)
     {
-        "id": 11,
+        "id": 19,
         "nom": "Set de peinture acrylique",
         "categorie": "outils_artistique",
         "description": "12 couleurs vibrantes pour vos créations",
@@ -167,7 +167,7 @@ PRODUITS = [
         "disponible": True
     },
     {
-        "id": 12,
+        "id": 20,
         "nom": "Toile à peindre 50x60cm",
         "categorie": "outils_artistique",
         "description": "Toile de qualité professionnelle",
@@ -175,7 +175,7 @@ PRODUITS = [
         "disponible": True
     },
     {
-        "id": 13,
+        "id": 21,
         "nom": "Pinceaux artistiques",
         "categorie": "outils_artistique",
         "description": "Set de 10 pinceaux de différentes tailles",
@@ -183,7 +183,7 @@ PRODUITS = [
         "disponible": True
     },
     {
-        "id": 14,
+        "id": 22,
         "nom": "Chevalet en bois",
         "categorie": "outils_artistique",
         "description": "Chevalet réglable pour peinture",
@@ -191,7 +191,7 @@ PRODUITS = [
         "disponible": True
     },
     {
-        "id": 15,
+        "id": 23,
         "nom": "Cahier de croquis",
         "categorie": "outils_artistique",
         "description": "Cahier à spirale pour dessins et croquis",
@@ -253,6 +253,13 @@ def catalogue():
                           categorie_active=categorie,
                           recherche=recherche)
 
+@app.route('/produit/<int:produit_id>')
+def produit(produit_id):
+    produit = next((p for p in PRODUITS if p['id'] == produit_id), None)
+    if produit is None:
+        return "Produit non trouvé", 404
+    return render_template('produit.html', produit=produit, categories=CATEGORIES)
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html', categories=CATEGORIES)
@@ -261,6 +268,8 @@ def contact():
 def envoyer_message():
     data = request.json
     return jsonify({"success": True, "message": "Message envoyé avec succès!"})
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
