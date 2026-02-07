@@ -255,13 +255,6 @@ def catalogue():
                           categorie_active=categorie,
                           recherche=recherche)
 
-@app.route('/produit/<int:produit_id>')
-def produit(produit_id):
-    produit = next((p for p in PRODUITS if p['id'] == produit_id), None)
-    if produit is None:
-        return "Produit non trouvé", 404
-    return render_template('produit.html', produit=produit, categories=CATEGORIES)
-
 @app.route('/contact')
 def contact():
     return render_template('contact.html', categories=CATEGORIES)
