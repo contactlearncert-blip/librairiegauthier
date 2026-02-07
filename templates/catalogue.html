@@ -5,9 +5,9 @@
 {% block content %}
 <div class="catalogue-header">
     <div class="container">
-    
+        <h1>Notre catalogue</h1>
         <p>Découvrez notre sélection de produits en boutique</p>
-        <form id="search-form" class="search-bar">
+        <form id="search-form" class="search-bar" action="{{ url_for('catalogue') }}" method="get">
             <input type="text" id="search-input" name="recherche" placeholder="Rechercher un produit..." value="{{ recherche }}">
             <button type="submit" id="search-btn"><i class="fas fa-search"></i></button>
         </form>
@@ -42,4 +42,3 @@
     </div>
 </div>
 {% endblock %}
-
