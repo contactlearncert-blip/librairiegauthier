@@ -206,6 +206,13 @@ CATEGORIES = [
     {"id": "outils_artistique", "name": "Outils artistique & décoration"}
 ]
 
+# Ajoutez cette route au début de votre app.py
+@app.route('/produit/<int:produit_id>')
+def produit(produit_id):
+    produit = next((p for p in PRODUITS if p['id'] == produit_id), None)
+    if produit is None:
+        return render_template('404.html', message="Produit non trouvé"), 404
+    return render_template('produit.html', produit=produit, categories=CATEGORIES)
 @app.route('/')
 def index():
     carousel_images = [
