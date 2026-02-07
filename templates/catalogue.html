@@ -43,13 +43,3 @@
 </div>
 {% endblock %}
 
-{% for produit in produits %}
-<div class="product-card">
-    <img src="{{ url_for('static', filename='images/' + produit.image) }}" 
-         alt="{{ produit.nom }}" 
-         class="product-image">
-    <p class="product-name">{{ produit.nom }}</p>
-    <!-- Lien vers la page produit -->
-    <a href="{{ url_for('produit', produit_id=produit.id) }}" class="btn-cta">Détails</a>
-</div>
-{% endfor %}
