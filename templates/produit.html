@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
- block title %}{{ produit.nom }} - Librairie Enchantée{% endblock %}
+{% block title %}{{ produit.nom }} - Librairie Enchantée{% endblock %}
 
 {% block content %}
 <div class="product-detail-container">
     <div class="container">
         <div class="product-detail">
             <div class="product-images">
-                <img src="{{ url_for('static', filename='images/' + produit.image) }}" alt="{{ produit.nom }}" class="main-image">
+                <img src="{{ url_for('static', filename='images/' + produit.image) }}" 
+                     alt="{{ produit.nom }}" 
+                     class="main-image">
             </div>
             
             <div class="product-info">
@@ -46,10 +48,10 @@
             <div class="products-grid">
                 {% for p in PRODUITS if p.categorie == produit.categorie and p.id != produit.id %}
                 <div class="product-card">
-                    <img src="{{ url_for('static', filename='images/' + p.image) }}" alt="{{ p.nom }}">
-                    <h3>{{ p.nom }}</h3>
-                    <p class="category">{{ p.categorie|capitalize }}</p>
-                    <a href="{{ url_for('produit', produit_id=p.id) }}" class="btn-cta">En savoir plus</a>
+                    <img src="{{ url_for('static', filename='images/' + p.image) }}" 
+                         alt="{{ p.nom }}" 
+                         class="product-image">
+                    <p class="product-name">{{ p.nom }}</p>
                 </div>
                 {% endfor %}
             </div>
