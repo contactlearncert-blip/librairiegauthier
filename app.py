@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 
-app = Flask(__name__)
-
+app = Flask(__name__, 
+            static_folder='static',
+            template_folder='templates')
 
 # Données produits - information uniquement pour la librairie physique
 PRODUITS = [
@@ -207,7 +208,6 @@ CATEGORIES = [
     {"id": "outils_artistique", "name": "Outils artistique & décoration"}
 ]
 
-
 @app.route('/')
 def index():
     carousel_images = [
@@ -264,7 +264,6 @@ def envoyer_message():
     data = request.json
     return jsonify({"success": True, "message": "Message envoyé avec succès!"})
 
-
-
+# Point d'entrée pour Vercel
 if __name__ == '__main__':
     app.run(debug=True)
