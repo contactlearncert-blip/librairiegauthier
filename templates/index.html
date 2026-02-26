@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Accueil - Librairie Enchantée{% endblock %}
+{% block title %}Accueil - Librairie Gauthier{% endblock %}
 
 {% block content %}
 <!-- Carousel avec texte attractif -->
 <section class="carousel">
     <div class="carousel-container">
         {% for image in carousel_images %}
-        <div class="carousel-item">
-            <img src="{{ url_for('static', filename='images/' + image.src) }}" alt="{{ image.alt }}">
+        <div class="carousel-item" style="display: {% if loop.index0 == 0 %}block{% else %}none{% endif %};">
+            <img src="{{ url_for('static', filename='images/' + image.src) }}" alt="{{ image.alt }}" loading="lazy">
             <div class="carousel-promo">
                 <h2>{{ image.title }}</h2>
                 <p>{{ image.description }}</p>
-                <a href="{{ url_for('catalogue') }}" class="btn-cta">Visitez-notre collection</a>
+                <a href="{{ url_for('catalogue') }}" class="btn-cta">Visitez notre collection</a>
             </div>
         </div>
         {% endfor %}
@@ -24,18 +24,42 @@
     </div>
 </section>
 
+<!-- Catégories rapides -->
+<section class="quick-categories">
+    <div class="container">
+        <h2 class="section-title">Nos catégories</h2>
+        <div class="categories-grid">
+            <a href="{{ url_for('catalogue') }}?categorie=livre" class="category-card">
+                <i class="fas fa-book"></i>
+                <h3>Livres</h3>
+                <p>Romans, classiques, jeunesse</p>
+            </a>
+            <a href="{{ url_for('catalogue') }}?categorie=fourniture" class="category-card">
+                <i class="fas fa-pencil-alt"></i>
+                <h3>Fournitures</h3>
+                <p>Cahiers, stylos, accessoires</p>
+            </a>
+            <a href="{{ url_for('catalogue') }}?categorie=outils_artistique" class="category-card">
+                <i class="fas fa-paint-brush"></i>
+                <h3>Outils artistique</h3>
+                <p>Peinture, pinceaux, toiles</p>
+            </a>
+        </div>
+    </div>
+</section>
+
 <!-- À propos de nous -->
 <section class="about-section">
     <div class="container">
         <div class="about-content">
             <div class="about-text">
                 <h2 class="section-title-blue">Notre histoire</h2>
-                <p>Fondée en 1995, la Librairie Enchantée est bien plus qu'une simple librairie. C'est un lieu de rencontre, d'échange et de partage autour des livres et de la culture.</p>
+                <p>Fondée en 1995, la Librairie Gauthier est bien plus qu'une simple librairie. C'est un lieu de rencontre, d'échange et de partage autour des livres et de la culture.</p>
                 <p>Notre équipe passionnée est là pour vous conseiller et vous faire découvrir des pépites littéraires, des fournitures de qualité et du matériel artistique pour tous vos projets créatifs.</p>
                 <a href="{{ url_for('catalogue') }}" class="btn-cta">Découvrez notre boutique</a>
             </div>
             <div class="about-image">
-                <img src="{{ url_for('static', filename='images/boutique.jpg') }}" alt="Notre librairie">
+                <img src="{{ url_for('static', filename='images/boutique.jpg') }}" alt="Notre librairie" loading="lazy">
             </div>
         </div>
     </div>
@@ -49,40 +73,31 @@
             <div class="gallery-item">
                 <img src="{{ url_for('static', filename='images/galerie1a.jpg') }}" 
                      alt="Notre espace de lecture" 
-                     loading="lazy"
-                     width="600" 
-                     height="400">
+                     loading="lazy">
                 <p>Notre librairie</p>
             </div>
             <div class="gallery-item">
                 <img src="{{ url_for('static', filename='images/galerie2.jpg') }}" 
                      alt="Nos rayons de livres" 
-                     loading="lazy"
-                     width="600" 
-                     height="400">
+                     loading="lazy">
                 <p>Nos rayons bien organisés</p>
             </div>
             <div class="gallery-item">
                 <img src="{{ url_for('static', filename='images/galerie3.jpg') }}" 
                      alt="Espace de travail" 
-                     loading="lazy"
-                     width="600" 
-                     height="400">
+                     loading="lazy">
                 <p>Un accueil chaleureux</p>
             </div>
             <div class="gallery-item">
                 <img src="{{ url_for('static', filename='images/galerie4.jpg') }}" 
                      alt="Espace enfants" 
-                     loading="lazy"
-                     width="600" 
-                     height="400">
+                     loading="lazy">
                 <p>Articles scolaires de qualité</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Pourquoi nous choisir -->
 <!-- Pourquoi nous choisir -->
 <section class="why-choose-us">
     <div class="container">
@@ -93,6 +108,24 @@
             En tant que librairie de proximité, nous privilégions le conseil,
             l'accueil et la disponibilité des produits directement en magasin.
         </p>
+    </div>
+</section>
+
+<!-- Nouveautés -->
+<section class="featured-products">
+    <div class="container">
+        <h2 class="section-title">Nouveautés</h2>
+        <div class="products-grid">
+            {% for produit in produits[:4] %}
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='images/' + produit.image) }}" 
+                     alt="{{ produit.nom }}" 
+                     class="product-image"
+                     loading="lazy">
+                <p class="product-name">{{ produit.nom }}</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </section>
 {% endblock %}

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Contact - Librairie Enchantée{% endblock %}
+{% block title %}Contact - Librairie Gauthier{% endblock %}
 
 {% block content %}
 <div class="contact-header">
     <div class="container">
         <h1>Nous contacter</h1>
+        <p>N'hésitez pas à nous écrire pour toute question</p>
     </div>
 </div>
 
@@ -22,6 +23,11 @@
                 <div class="form-group">
                     <label for="email">Email *</label>
                     <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telephone">Téléphone</label>
+                    <input type="tel" id="telephone" name="telephone" placeholder="Optionnel">
                 </div>
                 
                 <div class="form-group">
@@ -50,6 +56,7 @@
         
         <div class="contact-info">
             <h2>Informations pratiques</h2>
+            
             <div class="info-item">
                 <i class="fas fa-map-marker-alt"></i>
                 <div>
@@ -72,15 +79,15 @@
                 <i class="fas fa-phone"></i>
                 <div>
                     <h4>Téléphone</h4>
-                    <p>01 23 45 67 89</p>
+                    <p><a href="tel:+33123456789">01 23 45 67 89</a></p>
                 </div>
             </div>
             
-             <div class="info-item">
+            <div class="info-item">
                 <i class="fab fa-whatsapp"></i>
                 <div>
                     <h4>WhatsApp</h4>
-                    <p><a href="https://wa.me/33123456789" target="_blank" class="whatsapp-link">WhatsApp</a></p>
+                    <p><a href="https://wa.me/33123456789" target="_blank" class="whatsapp-link">Nous écrire sur WhatsApp</a></p>
                 </div>
             </div>
 
@@ -88,12 +95,41 @@
                 <i class="fas fa-envelope"></i>
                 <div>
                     <h4>Email</h4>
-                    <p>contact@librairie-enchantee.com</p>
+                    <p><a href="mailto:contact@librairie-gauthier.com">contact@librairie-gauthier.com</a></p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <i class="fas fa-map"></i>
+                <div>
+                    <h4>Accès</h4>
+                    <p>Métro : ligne 1 - Station Livres<br>Bus : lignes 24, 63, 72</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
+<!-- Section FAQ -->
+<section class="faq-section">
+    <div class="container">
+        <h2>Questions fréquentes</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <h3>Comment passer une commande ?</h3>
+                <p>Pour passer une commande, vous pouvez nous contacter directement par téléphone, email, ou via notre formulaire de contact. Nous sommes une librairie physique, donc les commandes sont traitées manuellement.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Quels sont les délais de disponibilité ?</h3>
+                <p>La plupart de nos produits sont disponibles immédiatement en magasin. Pour les articles non disponibles, nous pouvons les commander et vous tenir informé des délais.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Proposez-vous la livraison ?</h3>
+                <p>Nous ne proposons pas de livraison à domicile, mais vous pouvez venir retirer vos articles directement en magasin. Nous pouvons également vous réserver les produits.</p>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

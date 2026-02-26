@@ -1,8 +1,13 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
+import os
 
 app = Flask(__name__, 
             static_folder='static',
             template_folder='templates')
+
+# Configuration
+app.config['SECRET_KEY'] = 'votre-cle-secrete-ici'
+app.config['JSON_AS_ASCII'] = False  # Pour les caractères spéciaux
 
 # Données produits - information uniquement pour la librairie physique
 PRODUITS = [
@@ -208,6 +213,20 @@ CATEGORIES = [
     {"id": "outils_artistique", "name": "Outils artistique & décoration"}
 ]
 
+# Context processor pour passer des variables à tous les templates
+@app.context_processor
+def utility_processor():
+    def get_categorie_name(categorie_id):
+        for cat in CATEGORIES:
+            if cat['id'] == categorie_id:
+                return cat['name']
+        return ''
+    
+    return dict(
+        categories=CATEGORIES,
+        get_categorie_name=get_categorie_name
+    )
+
 @app.route('/')
 def index():
     carousel_images = [
@@ -234,9 +253,12 @@ def index():
         }
     ]
     
+    # 4 premiers produits pour les nouveautés
+    nouveautes = PRODUITS[:4]
+    
     return render_template('index.html', 
                           carousel_images=carousel_images,
-                          categories=CATEGORIES)
+                          produits=nouveautes)
 
 @app.route('/catalogue')
 def catalogue():
@@ -244,26 +266,66 @@ def catalogue():
     recherche = request.args.get('recherche', '').lower()
     
     produits_filtres = PRODUITS
+    
     if categorie:
         produits_filtres = [p for p in produits_filtres if p['categorie'] == categorie]
+    
     if recherche:
-        produits_filtres = [p for p in produits_filtres if recherche in p['nom'].lower() or recherche in p['description'].lower()]
+        produits_filtres = [p for p in produits_filtres 
+                          if recherche in p['nom'].lower() 
+                          or recherche in p['description'].lower()
+                          or (p.get('auteur') and recherche in p['auteur'].lower())]
     
     return render_template('catalogue.html', 
                           produits=produits_filtres,
-                          categories=CATEGORIES,
                           categorie_active=categorie,
                           recherche=recherche)
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html', categories=CATEGORIES)
+    return render_template('contact.html')
 
 @app.route('/api/message', methods=['POST'])
 def envoyer_message():
     data = request.json
-    return jsonify({"success": True, "message": "Message envoyé avec succès!"})
+    # Ici tu pourrais ajouter la logique d'envoi d'email
+    return jsonify({
+        "success": True, 
+        "message": "Message envoyé avec succès!"
+    })
+
+@app.route('/api/search')
+def api_search():
+    query = request.args.get('q', '').lower()
+    if len(query) < 2:
+        return jsonify({'results': []})
+    
+    results = [p for p in PRODUITS 
+              if query in p['nom'].lower() 
+              or query in p['description'].lower()]
+    
+    return jsonify({
+        'results': results[:10]  # Limiter à 10 résultats
+    })
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
+
+# Gestion des erreurs
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 # Point d'entrée pour Vercel
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)

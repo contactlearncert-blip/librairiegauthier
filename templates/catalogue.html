@@ -1,20 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %}Catalogue - Librairie Enchantée{% endblock %}
+{% block title %}Catalogue - Librairie Gauthier{% endblock %}
 
 {% block content %}
 <div class="catalogue-header">
     <div class="container">
+        <h1>Notre Catalogue</h1>
         <p>Découvrez notre sélection de produits en boutique</p>
+        
+        <!-- Barre de recherche -->
         <form id="search-form" class="search-bar" action="{{ url_for('catalogue') }}" method="get">
             <input type="text" id="search-input" name="recherche" placeholder="Rechercher un produit..." value="{{ recherche }}">
-            <button type="submit" id="search-btn"><i class="fas fa-search"></i></button>
+            <button type="submit" id="search-btn" aria-label="Rechercher"><i class="fas fa-search"></i></button>
         </form>
     </div>
 </div>
 
 <div class="catalogue-container">
     <div class="container">
+        <!-- Filtres mobiles -->
+        <div class="mobile-filters">
+            <button class="btn filter-toggle" id="filter-toggle" type="button">
+                <i class="fas fa-filter"></i> Filtrer par catégorie
+            </button>
+            
+            <div class="filter-menu" id="filter-menu">
+                <div class="filter-options">
+                    <a href="{{ url_for('catalogue') }}" class="filter-option {% if not categorie_active %}active{% endif %}">
+                        Tous les produits
+                    </a>
+                    {% for cat in categories %}
+                    <a href="{{ url_for('catalogue') }}?categorie={{ cat.id }}" 
+                       class="filter-option {% if categorie_active == cat.id %}active{% endif %}">
+                        <i class="fas {% if cat.id == 'livre' %}fa-book{% elif cat.id == 'fourniture' %}fa-pencil-alt{% else %}fa-paint-brush{% endif %}"></i>
+                        {{ cat.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
         <div class="catalogue-main">
             <div class="products-count">
                 <p>{{ produits|length }} produit(s) trouvé(s)</p>
@@ -23,11 +48,18 @@
             {% if produits %}
             <div class="products-grid">
                 {% for produit in produits %}
-                <div class="product-card">
+                <div class="product-card" data-category="{{ produit.categorie }}">
                     <img src="{{ url_for('static', filename='images/' + produit.image) }}" 
                          alt="{{ produit.nom }}" 
-                         class="product-image">
+                         class="product-image"
+                         loading="lazy">
                     <p class="product-name">{{ produit.nom }}</p>
+                    {% if produit.auteur %}
+                    <p class="product-author">{{ produit.auteur }}</p>
+                    {% endif %}
+                    <span class="product-availability {% if produit.disponible %}available{% else %}unavailable{% endif %}">
+                        {% if produit.disponible %}En stock{% else %}Rupture{% endif %}
+                    </span>
                 </div>
                 {% endfor %}
             </div>
@@ -35,9 +67,32 @@
             <div class="no-results">
                 <i class="fas fa-search"></i>
                 <p>Aucun produit trouvé. Essayez une autre recherche.</p>
+                <a href="{{ url_for('catalogue') }}" class="btn-cta">Voir tous les produits</a>
             </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<!-- Script spécifique au catalogue -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion du filtre mobile
+    const filterToggle = document.getElementById('filter-toggle');
+    const filterMenu = document.getElementById('filter-menu');
+    
+    if (filterToggle && filterMenu) {
+        filterToggle.addEventListener('click', function() {
+            filterMenu.classList.toggle('active');
+        });
+        
+        // Fermer le menu en cliquant en dehors
+        document.addEventListener('click', function(e) {
+            if (!filterMenu.contains(e.target) && !filterToggle.contains(e.target)) {
+                filterMenu.classList.remove('active');
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

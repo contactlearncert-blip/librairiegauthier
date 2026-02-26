@@ -2,13 +2,15 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Librairie Gauthier - Votre librairie de confiance pour livres, fournitures et outils artistiques">
     <title>{% block title %}Librairie Gauthier{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 </head>
 <body>
     <header class="header">
@@ -18,18 +20,18 @@
                 <p class="slogan">Votre librairie de confiance</p>
             </div>
             
-            <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+            <button class="hamburger" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
             
-            <nav class="main-nav" id="main-nav">
+            <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
                 <ul>
                     <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Accueil</a></li>
                     <li><a href="{{ url_for('catalogue') }}?categorie=fourniture" class="{% if request.endpoint == 'catalogue' and categorie_active == 'fourniture' %}active{% endif %}">Fournitures</a></li>
                     <li><a href="{{ url_for('catalogue') }}?categorie=livre" class="{% if request.endpoint == 'catalogue' and categorie_active == 'livre' %}active{% endif %}">Livres</a></li>
-                    <li><a href="{{ url_for('catalogue') }}?categorie=outils_artistique" class="{% if request.endpoint == 'catalogue' and categorie_active == 'outils_artistique' %}active{% endif %}">Outils artistique & décoration</a></li>
+                    <li><a href="{{ url_for('catalogue') }}?categorie=outils_artistique" class="{% if request.endpoint == 'catalogue' and categorie_active == 'outils_artistique' %}active{% endif %}">Outils artistique</a></li>
                     <li><a href="{{ url_for('contact') }}" class="{% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
                 </ul>
             </nav>
@@ -41,30 +43,22 @@
     </main>
 
     <!-- Modal pour afficher les images en grand -->
-    <div id="image-modal" class="modal">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modal-image">
+    <div id="image-modal" class="modal" role="dialog" aria-modal="true" aria-label="Agrandissement d'image">
+        <span class="close-modal" aria-label="Fermer">&times;</span>
+        <img class="modal-content" id="modal-image" alt="Image agrandie">
+        <button class="modal-close-btn mobile-only" aria-label="Fermer">Fermer</button>
     </div>
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
+           
+                
                 <div class="footer-section">
-                    <h3>Navigation</h3>
+                    <h3>Horaires</h3>
                     <ul>
-                        <li><a href="{{ url_for('index') }}">Accueil</a></li>
-                        <li><a href="{{ url_for('catalogue') }}?categorie=fourniture">Fournitures</a></li>
-                        <li><a href="{{ url_for('catalogue') }}?categorie=livre">Livres</a></li>
-                        <li><a href="{{ url_for('catalogue') }}?categorie=outils_artistique">Outils artistique & décoration</a></li>
-                        <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Catégories</h3>
-                    <ul>
-                        <li><a href="{{ url_for('catalogue') }}?categorie=livre">Livres</a></li>
-                        <li><a href="{{ url_for('catalogue') }}?categorie=fourniture">Fournitures</a></li>
-                        <li><a href="{{ url_for('catalogue') }}?categorie=outils_artistique">Outils artistique & décoration</a></li>
+                        <li><i class="fas fa-clock"></i> Lun-Ven: 9h-19h</li>
+                        <li><i class="fas fa-clock"></i> Sam: 10h-18h</li>
+                        <li><i class="fas fa-clock"></i> Dim: Fermé</li>
                     </ul>
                 </div>
             </div>
